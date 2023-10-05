@@ -1,5 +1,6 @@
 package com.example.testtaskgiphy
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,6 +15,10 @@ class MainActivity : AppCompatActivity() {
 
     fun loadGifs () {}
 
+    fun openGif () {
+        val intent = Intent(this@MainActivity, FullScreenGifActivity::class.java)
+        startActivity(intent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -23,7 +28,12 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = binding.recycterView
         recyclerView.layoutManager = GridLayoutManager(this, 3) // Указываем, что хотим 2 колонки
-        adapter = RecyclerViewAdapter()
+        adapter = RecyclerViewAdapter(object  : GifActionListener {
+            override fun onGifOpen(gifImage: GifImageService) {
+                super.onGifOpen(gifImage)
+                openGif()
+            }
+        })
 
         recyclerView.adapter = adapter
 

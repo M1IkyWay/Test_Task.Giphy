@@ -5,15 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtaskgiphy.databinding.ItemGifBinding
-import kotlinx.coroutines.NonDisposableHandle.parent
 
-class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.GifViewHolder>(), View.OnClickListener {
+interface GifActionListener {
+    fun onGifOpen (gifImage: GifImageService) {}
+}
 
-    interface AlarmActionListener {
+class RecyclerViewAdapter (val gifActionListener : GifActionListener) : RecyclerView.Adapter<RecyclerViewAdapter.GifViewHolder>(), View.OnClickListener {
 
-        fun onGifOpen (gifImage: GifImage) {}
 
-    }
 
     class GifViewHolder (
         val binding : ItemGifBinding
@@ -24,7 +23,9 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.GifViewHold
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemGifBinding.inflate(inflater, parent, false)
-        val gifImage = binding.gifImage
+
+            //переносить ли он байнд вью холдер?
+//        val gifImage = binding.gifImage
         binding.root.setOnClickListener(this)
         return GifViewHolder(binding)
     }
@@ -34,10 +35,13 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.GifViewHold
     }
 
     override fun onBindViewHolder(holder: GifViewHolder, position: Int) {
-        TODO("Not yet implemented")
+//        holder.itemView.tag =
+
+
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(v: View) {
+//        val gif = v.tag as GifImageService.GifImage
         TODO("Not yet implemented")
     }
 }

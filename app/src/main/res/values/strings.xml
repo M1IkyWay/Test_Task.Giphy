@@ -1,4 +1,5 @@
 <resources>
 
     <string name="gif_image">gif image</string>
+    <string name="app_name">Test Task (Giphy)</string>
 </resources>
