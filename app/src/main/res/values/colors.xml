@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="selected_color">#AF61FB</color>
+    <color name="unselected_color">#6B0CC6</color>
+    <color name="selected_border_color">#660BBD</color>
+    <color name="unselected_border_color">#5E2497</color>
+    <color name="background_app_color">#7C49AE</color>
 </resources>
