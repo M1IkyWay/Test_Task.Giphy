@@ -24,12 +24,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    fun openGif () {
-        val intent = Intent(this@MainActivity, FullScreenGifActivity::class.java)
-        startActivity(intent)
-    }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -42,10 +36,12 @@ class MainActivity : AppCompatActivity() {
         recyclerView = binding.recycterView
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(this, 3) // Указываем, что хотим 2 колонки
-        adapter = RecyclerViewAdapter(gifList, object  : GifActionListener {
-            override fun onGifOpen(gifImage: GifImageService) {
-                super.onGifOpen(gifImage)
-                openGif()
+        adapter = RecyclerViewAdapter(this, gifList, object  :
+            RecyclerViewAdapter.GifClickListener {
+            override fun onGifOpen(position: Int) {
+                val intent = Intent(this@MainActivity, FullScreenGifActivity::class.java)
+                startActivity(intent)
+                intent.putExtra("url", gifList[position].images.origImage.url)
             }
         })
         recyclerView.adapter = adapter
@@ -59,9 +55,14 @@ class MainActivity : AppCompatActivity() {
         retrofitService.getGifs().enqueue(object : Callback<ListResult?> {
             override fun onResponse(call: Call<ListResult?>, response: Response<ListResult?>) {
                 val body = response.body()
+                if (body==null) {
+                    Log.d("No response", "")
+                }
+              gifList.addAll(body!!.res)
+                adapter.notifyDataSetChanged()
             }
             override fun onFailure(call: Call<ListResult?>, t: Throwable) {
-                Log.d("No response", "")
+
             }
         })
 

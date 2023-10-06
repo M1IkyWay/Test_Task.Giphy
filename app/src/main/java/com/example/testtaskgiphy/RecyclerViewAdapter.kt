@@ -1,22 +1,39 @@
 package com.example.testtaskgiphy
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.testtaskgiphy.databinding.ItemGifBinding
 
-interface GifActionListener {
-    fun onGifOpen (gifImage: GifImageService) {}
-}
 
-class RecyclerViewAdapter (val list : MutableList<GifObject>, val gifActionListener : GifActionListener) : RecyclerView.Adapter<RecyclerViewAdapter.GifViewHolder>(), View.OnClickListener {
+class RecyclerViewAdapter (val context: Context, val list : MutableList<GifObject>, val gifClickListener : GifClickListener)
+    : RecyclerView.Adapter<RecyclerViewAdapter.GifViewHolder>(){
 
+    lateinit var  gListener : GifClickListener
 
+    interface GifClickListener {
+        fun onGifOpen (position: Int) {}
+    }
+
+    fun setOnGifClickListener (listener: GifClickListener) {
+        gListener = listener
+    }
 
     class GifViewHolder (
-        val binding : ItemGifBinding
-    ) : RecyclerView.ViewHolder(binding.root){
+        val binding : ItemGifBinding, listener : GifClickListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+        val imageView = binding.gifImage
+
+        init {
+            itemView.setOnClickListener() {
+                listener.onGifOpen(adapterPosition)
+
+            }
+        }
     }
 
 
@@ -24,24 +41,19 @@ class RecyclerViewAdapter (val list : MutableList<GifObject>, val gifActionListe
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemGifBinding.inflate(inflater, parent, false)
 
-            //переносить ли он байнд вью холдер?
-//        val gifImage = binding.gifImage
-        binding.root.setOnClickListener(this)
-        return GifViewHolder(binding)
+        return GifViewHolder(binding, listener = gListener)
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return list.size
     }
 
     override fun onBindViewHolder(holder: GifViewHolder, position: Int) {
-//        holder.itemView.tag =
+        val data = list[position]
 
-
+        Glide.with(context).load(data.images.origImage.url)
+            .into(holder.imageView)
     }
 
-    override fun onClick(v: View) {
-//        val gif = v.tag as GifImageService.GifImage
-        TODO("Not yet implemented")
-    }
+
 }
