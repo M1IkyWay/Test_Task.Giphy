@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 
-const val BASE_URL = "https://api.giphy.com/v1/"
+const val BASE_URL = "https://api.giphy.com/"
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityMainBinding
@@ -35,13 +35,14 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = binding.recycterView
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = GridLayoutManager(this, 3) // Указываем, что хотим 2 колонки
+        recyclerView.layoutManager = GridLayoutManager(this, 2) // Указываем, что хотим 2 колонки
         adapter = RecyclerViewAdapter(this, gifList, object  :
             RecyclerViewAdapter.GifClickListener {
             override fun onGifOpen(position: Int) {
                 val intent = Intent(this@MainActivity, FullScreenGifActivity::class.java)
-                startActivity(intent)
+
                 intent.putExtra("url", gifList[position].images.origImage.url)
+                startActivity(intent)
             }
         })
         recyclerView.adapter = adapter
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val retrofitService = retrofit.create(GifService ::class.java)
-        retrofitService.getGifs().enqueue(object : Callback<ListResult?> {
+        retrofitService.getGifs("K3o125E8SgSnyHqUS3XvWQlnyBJ8Hisz").enqueue(object : Callback<ListResult?> {
             override fun onResponse(call: Call<ListResult?>, response: Response<ListResult?>) {
                 val body = response.body()
                 if (body==null) {

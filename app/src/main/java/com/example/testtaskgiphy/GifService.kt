@@ -1,10 +1,13 @@
 package com.example.testtaskgiphy
 
+import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface GifService {
 
 
-    @GET("gifs/random?apikey=K3o125E8SgSnyHqUS3XvWQlnyBJ8Hisz")
-    fun getGifs () : retrofit2.Call<ListResult>
+    @GET("/v1/gifs/trending")
+
+    fun getGifs(@Query("apiKey") apiKey: String): retrofit2.Call<ListResult>
 }
