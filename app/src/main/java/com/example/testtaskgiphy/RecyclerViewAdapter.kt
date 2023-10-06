@@ -10,7 +10,7 @@ interface GifActionListener {
     fun onGifOpen (gifImage: GifImageService) {}
 }
 
-class RecyclerViewAdapter (val gifActionListener : GifActionListener) : RecyclerView.Adapter<RecyclerViewAdapter.GifViewHolder>(), View.OnClickListener {
+class RecyclerViewAdapter (val list : MutableList<GifObject>, val gifActionListener : GifActionListener) : RecyclerView.Adapter<RecyclerViewAdapter.GifViewHolder>(), View.OnClickListener {
 
 
 
