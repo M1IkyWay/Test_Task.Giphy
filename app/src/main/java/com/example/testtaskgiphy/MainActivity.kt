@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtaskgiphy.databinding.ActivityMainBinding
 
+
+const val BASE_URL = "https://api.giphy.com/v1/"
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityMainBinding
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this@MainActivity, FullScreenGifActivity::class.java)
         startActivity(intent)
     }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
